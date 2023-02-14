@@ -1,0 +1,22 @@
+$bg_color:#f5f5f5;
+$theme_bg_color:#5582aa;
+$basic_border_radius:8px;
+$basic_box_shadow:0 4px 0 rgb(43 43 43 / 10%);
+$carousel_width:50%;
+$basic_flag_color:#0090eb;
+$basic_flag_textColor:#ffffff;
+$basic_carousel_height:61px;
+
+$basic_swiper_color:#ea1717;
+
+
+
+@mixin imgCover{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@mixin transitionSpeed{
+    transition: all .5s;
+}
