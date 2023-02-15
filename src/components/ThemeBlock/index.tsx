@@ -12,7 +12,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import { IthemeBlock,IProductDetails } from '../../definition/interface/productsDeclaration'
+import { IthemeBlock,IProductDetails } from '../../definition/productsDeclaration'
 
 import { useAppDispatch,useAppSelector } from "../../helper/hooks";
 
@@ -84,7 +84,7 @@ const ThemeBlock:React.FC<{themeBlockInfo:IthemeBlock[] | null}> = ({themeBlockI
           {
             themeBlockInfo?.map((tag)=>{
               return (
-                <div className={currentTagPage === tag.tabPageName ? 'themeBlock_tagPage_title action' : 'themeBlock_tagPage_title' } onClick={(()=>{
+                <div className={`themeBlock_tagPage_title ${ currentTagPage === tag.tabPageName && 'action'}` } onClick={(()=>{
                   handleChangeTagPage(tag.tabPageName)
                 })}>
                   {tag.tabPageName}
