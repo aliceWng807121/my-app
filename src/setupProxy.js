@@ -8,4 +8,11 @@ module.exports = (app) => {
       changeOrigin: true,
     })
   );
+  app.use(
+    "/sign/v1/food/",
+    createProxyMiddleware({
+      target: "https://24h.pchome.com.tw",
+      changeOrigin: true,
+    })
+  );
 };

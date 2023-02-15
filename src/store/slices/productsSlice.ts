@@ -1,10 +1,10 @@
 import { createSlice,createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { productsApi } from '../../services/index'
 import { RootState } from '../index'
-import { IproductsSliceInitialState, IthemeBlock, ITagLinks, IProductDetails } from '../../definition/interface/productsDeclaration'
+import { IproductsSliceInitialState, IthemeBlock, ITagLinks, IProductDetails } from '../../definition/productsDeclaration'
 
 // 整理工具
-import { handleTagLinks, handleProductDetails, getFullImgSrc } from '../../utils/reorganize'
+import { handleTagLinks, handleProductDetails, getFullImgSrc, getThemeFullImgSrc } from '../../utils/reorganize'
 
 export const fetchProducts= createAsyncThunk("products/fetchProducts", async () => {
     const response = await productsApi.fetchProducts();
@@ -19,7 +19,7 @@ export const fetchProducts= createAsyncThunk("products/fetchProducts", async () 
         {
         tabPageName:mainInfo[0].Link.Text,
         eventTitle:mainInfo[0].Link.Text1,
-        eventImgSrc:getFullImgSrc(mainInfo[0].Img.Src) ,
+        eventImgSrc:getThemeFullImgSrc(mainInfo[0].Img.Src) ,
         eventImgAlt:mainInfo[0].Img.Text,
         tagLinks:tagLinksOrigArr,
         productDetails:productDetailsOrigArr

@@ -27,6 +27,11 @@ export function handleProductDetails(arr){
 }
 
 export function getFullImgSrc(url){
-    const domain = 'http://ecimg.dev.mypchome.com.tw'
+    const domain = 'https://cs-a.ecimg.tw/'
+    return domain + url
+}
+
+export function getThemeFullImgSrc(url){
+    const domain = 'https://fs-a.ecimg.tw/'
     return domain + url
 }
