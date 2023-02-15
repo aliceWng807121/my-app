@@ -1,27 +1,21 @@
-import React,{ useEffect } from 'react';
+import React,{ useEffect,lazy } from 'react';
+// style
 import './App.scss';
-
-import { selectProducts } from './store/slices/productsSlice'
-
-// components
-import ThemeBlock from './components/ThemeBlock'
-
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-// import required modules
-import { Pagination, Navigation } from "swiper";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-
+// helper hook
 import { useAppDispatch, useAppSelector } from "./helper/hooks";
+// select slice
+import { selectProducts } from './store/slices/productsSlice'
+// slice action
 import { fetchProducts } from "./store/slices/productsSlice";
+
+// lazy load
+const ThemeBlock = lazy(() => import('./components/ThemeBlock'));
+
 
 const App:React.FC = () => {
   const dispatch = useAppDispatch();
   const { data } = useAppSelector(selectProducts);
+
   useEffect(()=>{
     dispatch(fetchProducts());
   },[])

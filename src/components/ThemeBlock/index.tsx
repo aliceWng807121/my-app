@@ -1,81 +1,36 @@
-import React,{ useEffect,useState } from 'react';
-
+import React,{ useEffect, useState, useRef } from 'react';
+// scss
 import './style.scss';
-
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
-// import required modules
-import { Pagination, Navigation } from "swiper";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-
-import { IthemeBlock,IProductDetails } from '../../definition/productsDeclaration'
-
+// props interface
+import { IthemeBlock } from '../../definition/productsDeclaration'
+// helper hook
 import { useAppDispatch,useAppSelector } from "../../helper/hooks";
-
+// slice action
 import { changeTagPage } from '../../store/slices/productsSlice'
+// component
+import MySwiper from '../MySwiper'
 
-const MySwiper:React.FC<{products:IProductDetails[]}> = ({products}) =>{
-  const [productGroups,setProductGroups] = useState<IProductDetails[][]>([])
-
-  useEffect(()=>{
-    handleProductGroups(products)
-  },[])
-  function handleProductGroups(products:IProductDetails[]){
-    let Group = []
-    let productsList = products.slice()
-  
-    while(productsList.length > 3 ){
-      Group.push(productsList.splice(0,6))
-    }
-    setProductGroups(Group)
-  }
-
-  return (
-  <Swiper
-    pagination={{
-      type: "fraction",
-    }}
-    navigation={true}
-    modules={[Pagination, Navigation]}
-    className="mySwiper"
-  >
-    {
-      productGroups.map((Group)=>{
-        return (
-          <SwiperSlide>
-          <div className="productsDisplay">
-          {
-            Group.map((productItem) => {
-              return (
-              <a href={productItem.productUrl} className="productsDisplay_product">
-                <div className="productsDisplay_product_Img">
-                  <img src={productItem.imgSrc} alt="" />
-                </div>
-                <div className="productsDisplay_product_Name">{productItem.name}</div>
-                <div className="productsDisplay_product_Price">{productItem.price}</div>
-              </a>
-              )
-            })
-          }
-          </div>
-          </SwiperSlide>
-        )
-      })
-    }
-  </Swiper>
-  )
-}
 
 const ThemeBlock:React.FC<{themeBlockInfo:IthemeBlock[] | null}> = ({themeBlockInfo}) => {
   const dispatch = useAppDispatch();
   const { currentTagPage } = useAppSelector((state)=>state.productsSlice);
+  const [currentShowProductGroup,setCurrentShowProductGroup] = useState<IthemeBlock | null>(null);
+
+  useEffect(()=>{
+    if(themeBlockInfo){
+      filterCurrentShowProductGroup(themeBlockInfo);
+    }
+  },[currentTagPage])
 
   function handleChangeTagPage(tagName:string){
     dispatch(changeTagPage(tagName));
+  }
+
+  function filterCurrentShowProductGroup(themeBlockInfo:IthemeBlock[]){
+    let CurrentShowProductGroupItem = themeBlockInfo?.filter((item)=>{
+      return currentTagPage === item.tabPageName
+    })
+    setCurrentShowProductGroup(CurrentShowProductGroupItem[0])
   }
 
     return(
@@ -84,7 +39,7 @@ const ThemeBlock:React.FC<{themeBlockInfo:IthemeBlock[] | null}> = ({themeBlockI
           {
             themeBlockInfo?.map((tag)=>{
               return (
-                <div className={`themeBlock_tagPage_title ${ currentTagPage === tag.tabPageName && 'action'}` } onClick={(()=>{
+                <div className={`themeBlock_tagPage_title ${ currentTagPage === tag.tabPageName && 'action'}` } key={tag.tabPageName} onClick={(()=>{
                   handleChangeTagPage(tag.tabPageName)
                 })}>
                   {tag.tabPageName}
@@ -94,16 +49,14 @@ const ThemeBlock:React.FC<{themeBlockInfo:IthemeBlock[] | null}> = ({themeBlockI
           }
         </div>
         {
-          themeBlockInfo?.map((block)=>{
-            return (
-              currentTagPage === block.tabPageName &&
-              <>
-                <div className="themeBlock_titleContent">
+          currentShowProductGroup &&
+          <>
+            <div className="themeBlock_titleContent">
                 <div className="themeBlock_titleContent_flag">主題推薦</div>
-                <div className="themeBlock_titleContent_title">{ block.eventTitle }</div>
+                <div className="themeBlock_titleContent_title">{ currentShowProductGroup.eventTitle }</div>
                 <div className="themeBlock_titleContent_tags">
                   {
-                    block.tagLinks.map((tagItem)=>{
+                    currentShowProductGroup.tagLinks.map((tagItem)=>{
                       return (
                         tagItem.text &&
                         <a className="tag" href="tagItem.url">{tagItem.text}</a>
@@ -111,17 +64,14 @@ const ThemeBlock:React.FC<{themeBlockInfo:IthemeBlock[] | null}> = ({themeBlockI
                     })
                   }
                 </div>
-                </div>
-                <div className="themeBlock_titleImg">
-                <img src={block.eventImgSrc} alt="" />
-                </div>
-                <div className="themeBlock_carousel">
-                  <MySwiper products={block.productDetails}/>
-                </div>
-              
-              </>
-            )
-          })
+            </div>
+            <div className="themeBlock_titleImg">
+                <img src={currentShowProductGroup.eventImgSrc} alt="" />
+            </div>
+            <div className="themeBlock_carousel">
+              <MySwiper products={currentShowProductGroup.productDetails}/>
+            </div>
+          </>
         }
       </div>
     )
