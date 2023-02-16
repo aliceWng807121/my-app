@@ -1,7 +1,6 @@
 import { createSlice,createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { productsApi } from '../../services/index'
 import { RootState } from '../index'
-import { IproductsSliceInitialState, IthemeBlock, ITagLinks, IProductDetails } from '../../definition/productsDeclaration'
 
 // 整理工具
 import { handleTagLinks, handleProductDetails, getFullImgSrc, getThemeFullImgSrc } from '../../utils/reorganize'
@@ -9,11 +8,11 @@ import { handleTagLinks, handleProductDetails, getFullImgSrc, getThemeFullImgSrc
 export const fetchProducts= createAsyncThunk("products/fetchProducts", async () => {
     const response = await productsApi.fetchProducts();
     // console.log('data',response.data.window1);
-    let tagPageList:IthemeBlock[] = []
+    let tagPageList:productsDeclaration.IthemeBlock[] = []
     for(let i of response.data.window1.Blocks){
       let NodesArr = i.Nodes
       let mainInfo = NodesArr.splice(0,1);
-      let tagLinksOrigArr:ITagLinks[] = handleTagLinks(NodesArr.splice(0,5)) ;
+      let tagLinksOrigArr:productsDeclaration.T_TagLinks[] = handleTagLinks(NodesArr.splice(0,5)) ;
       let productDetailsOrigArr = handleProductDetails(NodesArr.splice(0,18)) ;
       tagPageList.push(
         {
@@ -30,7 +29,7 @@ export const fetchProducts= createAsyncThunk("products/fetchProducts", async () 
     return tagPageList;
   });
 
-  const initialState:IproductsSliceInitialState = {
+  const initialState:productsDeclaration.IproductsSliceInitialState = {
     data: null,
     currentTagPage:'',
     isLoading: false,

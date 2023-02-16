@@ -1,8 +1,6 @@
 import React,{ useEffect, useState, useRef } from 'react';
 // scss
 import './style.scss';
-// props interface
-import { IthemeBlock } from '../../definition/productsDeclaration'
 // helper hook
 import { useAppDispatch,useAppSelector } from "../../helper/hooks";
 // slice action
@@ -11,10 +9,10 @@ import { changeTagPage } from '../../store/slices/productsSlice'
 import MySwiper from '../MySwiper'
 
 
-const ThemeBlock:React.FC<{themeBlockInfo:IthemeBlock[] | null}> = ({themeBlockInfo}) => {
+const ThemeBlock:React.FC<{themeBlockInfo:productsDeclaration.IthemeBlock[] | null}> = ({themeBlockInfo}) => {
   const dispatch = useAppDispatch();
   const { currentTagPage } = useAppSelector((state)=>state.productsSlice);
-  const [currentShowProductGroup,setCurrentShowProductGroup] = useState<IthemeBlock | null>(null);
+  const [currentShowProductGroup,setCurrentShowProductGroup] = useState<productsDeclaration.IthemeBlock | null>(null);
 
   useEffect(()=>{
     if(themeBlockInfo){
@@ -26,7 +24,7 @@ const ThemeBlock:React.FC<{themeBlockInfo:IthemeBlock[] | null}> = ({themeBlockI
     dispatch(changeTagPage(tagName));
   }
 
-  function filterCurrentShowProductGroup(themeBlockInfo:IthemeBlock[]){
+  function filterCurrentShowProductGroup(themeBlockInfo:productsDeclaration.IthemeBlock[]){
     let CurrentShowProductGroupItem = themeBlockInfo?.filter((item)=>{
       return currentTagPage === item.tabPageName
     })

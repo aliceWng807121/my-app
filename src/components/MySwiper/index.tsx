@@ -10,10 +10,10 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 // props interface 
-import { IProductDetails } from '../../definition/productsDeclaration'
+// import { IProductDetails } from '../../definition/products'
 
-const MySwiper:React.FC<{products:IProductDetails[]}> = ({products}) =>{
-  const [productGroups,setProductGroups] = useState<IProductDetails[][]>([]);
+const MySwiper:React.FC<{products:productsDeclaration.T_ProductDetails[]}> = ({products}) =>{
+  const [productGroups,setProductGroups] = useState<productsDeclaration.T_ProductDetails[][]>([]);
   const [swiper, setSwiper] = useState<SwiperRef>();
   const swiperRef = useRef(null);
 
@@ -23,7 +23,7 @@ const MySwiper:React.FC<{products:IProductDetails[]}> = ({products}) =>{
       swiper.slideTo(0);
     }
   },[products])
-  function handleProductGroups(products:IProductDetails[]){
+  function handleProductGroups(products:productsDeclaration.T_ProductDetails[]){
     let Group = []
     let productsList = products.slice()
   
