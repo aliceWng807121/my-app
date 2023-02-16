@@ -57,7 +57,7 @@ const ThemeBlock:React.FC<{themeBlockInfo:productsDeclaration.IthemeBlock[] | nu
                     currentShowProductGroup.tagLinks.map((tagItem)=>{
                       return (
                         tagItem.text &&
-                        <a className="tag" href="tagItem.url">{tagItem.text}</a>
+                        <a className="tag" href="tagItem.url" key={tagItem.text}>{tagItem.text}</a>
                       )
                     })
                   }

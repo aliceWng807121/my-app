@@ -45,9 +45,9 @@ const MySwiper:React.FC<{products:productsDeclaration.T_ProductDetails[]}> = ({p
     onSwiper={(swiper) => setSwiper(swiper)}
   >
     {
-      productGroups.map((Group)=>{
+      productGroups.map((Group,idx)=>{
         return (
-          <SwiperSlide>
+          <SwiperSlide key={idx}>
             <div className="productsDisplay">
             {
                 Group.map((productItem) => {
